@@ -16,6 +16,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Project Data (Logs, temporary prompt storage, etc)
+data/
+
 # Optional npm cache directory
 .npm
 

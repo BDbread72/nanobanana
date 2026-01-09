@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nanobanana Inspector</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>🍌 Nanobanana <span class="subtitle">Inspector</span></h1>
+            <a href="/" class="nav-link">⬅️ Back to Studio</a>
+        </header>
+        
+        <main>
+            <div class="card">
+                <div class="drop-zone" id="drop-zone">
+                    <p>📂 Drag & Drop an image here, or click to upload</p>
+                    <input type="file" id="file-input" accept="image/png, image/jpeg" style="display: none;">
+                </div>
+            </div>
+
+            <div class="card inspector-layout" id="result-area" style="display: none;">
+                <div class="inspector-image">
+                    <img id="inspected-img" src="" alt="Inspected Image">
+                </div>
+                <div class="inspector-data">
+                    <label>Found Metadata (Prompt):</label>
+                    <div class="metadata-display" id="metadata-text"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="watch.js"></script>
+</body>
+</html>

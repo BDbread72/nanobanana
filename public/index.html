@@ -5,37 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nanobanana Image Generator</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>🍌 Nanobanana Image Generator</h1>
+    <div class="app-container">
+        <header>
+            <h1>🍌 Nanobanana <span class="subtitle">Studio</span></h1>
+            <a href="/watch" class="nav-link">👁️ Watch (Inspector)</a>
+        </header>
         
-        <div class="auth-section">
-            <label for="access-key">Site Access Key:</label>
-            <input type="password" id="access-key" placeholder="Enter site access key" required>
-        </div>
-
-        <div class="controls">
-            <div class="control-group">
-                <label for="model-select">Model:</label>
-                <select id="model-select">
-                    <option value="" disabled selected>Loading models...</option>
-                </select>
+        <main>
+            <div class="card auth-card">
+                <div class="input-group">
+                    <label for="access-key">Site Access Key</label>
+                    <input type="password" id="access-key" placeholder="Enter your access key..." required>
+                </div>
             </div>
+
+            <div class="card workspace-card">
+                <div class="sidebar">
+                    <div class="input-group">
+                        <label for="model-select">Model</label>
+                        <select id="model-select">
+                            <option value="" disabled selected>Waiting for key...</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Saved Prompts</label>
+                        <div class="saved-prompts-controls">
+                            <select id="saved-prompts-select" disabled>
+                                <option value="">-- Load a Prompt --</option>
+                            </select>
+                            <button id="delete-prompt-btn" class="icon-btn danger" title="Delete Prompt" disabled>🗑️</button>
+                        </div>
+                    </div>
+
+                    <hr class="divider">
+
+                    <div class="input-group">
+                        <label>Input Format</label>
+                        <div class="format-toggles">
+                            <label class="radio-label">
+                                <input type="radio" name="prompt-format" value="text" checked> Raw Text
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="prompt-format" value="json"> JSON (Key-Value)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-content">
+                    <div id="prompt-builder-area">
+                        <!-- Content injected by JS -->
+                        <textarea id="prompt-input-text" placeholder="Type your prompt here..."></textarea>
+                        
+                        <div id="prompt-input-json" style="display: none;">
+                            <div id="json-rows-container"></div>
+                            <button id="add-json-row-btn" class="secondary-btn">+ Add Key-Value Pair</button>
+                        </div>
+                    </div>
+
+                    <div class="action-bar">
+                        <div class="save-controls">
+                            <input type="text" id="prompt-save-name" placeholder="Prompt Name">
+                            <button id="save-prompt-btn" class="secondary-btn">Save Prompt</button>
+                        </div>
+                        <button id="generate-btn" class="primary-btn">Generate Image</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="status-message"></div>
             
-            <div class="control-group">
-                <label for="prompt-input">Prompt:</label>
-                <textarea id="prompt-input" rows="3" placeholder="Describe the image you want to generate..."></textarea>
+            <div id="result-container">
+                <!-- Image will appear here -->
             </div>
-
-            <button id="generate-btn">Generate Image</button>
-        </div>
-
-        <div id="status-message"></div>
-        
-        <div id="result-container">
-            <!-- Image will appear here -->
-        </div>
+        </main>
     </div>
 
     <script src="script.js"></script>
