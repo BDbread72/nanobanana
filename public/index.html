@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nanobanana Image Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🍌 Nanobanana Image Generator</h1>
+        
+        <div class="auth-section">
+            <label for="access-key">Site Access Key:</label>
+            <input type="password" id="access-key" placeholder="Enter site access key" required>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="model-select">Model:</label>
+                <select id="model-select">
+                    <option value="" disabled selected>Loading models...</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="prompt-input">Prompt:</label>
+                <textarea id="prompt-input" rows="3" placeholder="Describe the image you want to generate..."></textarea>
+            </div>
+
+            <button id="generate-btn">Generate Image</button>
+        </div>
+
+        <div id="status-message"></div>
+        
+        <div id="result-container">
+            <!-- Image will appear here -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

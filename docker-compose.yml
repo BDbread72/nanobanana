@@ -1,0 +1,20 @@
+services:
+  web:
+    build: .
+    container_name: nanobanana-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NANOBANANA_API_KEY=${NANOBANANA_API_KEY}
+      - SITE_ACCESS_KEY=${SITE_ACCESS_KEY}
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: nanobanana-tunnel
+    restart: unless-stopped
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    depends_on:
+      - web
