@@ -316,20 +316,36 @@ textarea {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    position: relative; /* For overlay button */
+    position: relative;
 }
 
 /* Image Wrapper for Overlay */
 .image-wrapper {
     position: relative;
     display: inline-block;
+    max-width: 100%;
 }
 
 .image-wrapper img {
     max-width: 100%;
+    max-height: 60vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
     border-radius: 8px;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     display: block;
+}
+
+/* Text response styling */
+.text-response {
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    color: #92400e;
+    max-width: 100%;
+    word-break: break-word;
 }
 
 .error { color: var(--danger-color); }

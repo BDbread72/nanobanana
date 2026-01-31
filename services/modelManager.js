@@ -15,18 +15,34 @@ class ModelManager {
             this.registerProvider('nanobanana', nanoProvider);
 
             // Register Models
+            // Gemini Image Models
             this.registerModel({
                 id: 'gemini-2.5-flash-image',
-                name: 'Nano Banana (Speed)',
+                name: 'Gemini Flash Image',
                 provider: 'nanobanana',
-                description: 'Fast generation using Flash model'
+                description: 'Fast generation with Gemini 2.5 Flash'
             });
-            
+
             this.registerModel({
                 id: 'gemini-3-pro-image-preview',
-                name: 'Nano Banana Pro (Quality)',
+                name: 'Gemini Pro Image (Preview)',
                 provider: 'nanobanana',
-                description: 'High quality generation using Pro model'
+                description: 'High quality with Gemini 3 Pro'
+            });
+
+            // Imagen Models
+            this.registerModel({
+                id: 'imagen-4.0-fast-generate-001',
+                name: 'Imagen 4 Fast',
+                provider: 'nanobanana',
+                description: 'Ultra fast Imagen 4 generation'
+            });
+
+            this.registerModel({
+                id: 'imagen-4.0-generate-001',
+                name: 'Imagen 4 Standard',
+                provider: 'nanobanana',
+                description: 'Standard quality Imagen 4'
             });
         } else {
             console.warn('Warning: NANOBANANA_API_KEY is missing. Nanobanana models will be unavailable.');

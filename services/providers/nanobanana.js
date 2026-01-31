@@ -7,30 +7,73 @@ class NanobananaProvider {
     }
 
     async generate(modelId, prompt, options = {}) {
+        const isImagenModel = modelId.startsWith('imagen-');
+
+        console.log(`[Nanobanana] Requesting ${modelId} (${isImagenModel ? 'Imagen' : 'Gemini'} API)...`);
+
+        try {
+            if (isImagenModel) {
+                return await this.generateWithImagen(modelId, prompt, options);
+            } else {
+                return await this.generateWithGemini(modelId, prompt, options);
+            }
+        } catch (error) {
+            const errorDetails = error.response?.data?.error?.message || error.message;
+            console.error('[Nanobanana] Error:', error.response?.data || error.message);
+            throw new Error(`Nanobanana API Error: ${errorDetails}`);
+        }
+    }
+
+    // Imagen API (imagen-4.0-generate-001, etc.)
+    async generateWithImagen(modelId, prompt, options = {}) {
+        const apiUrl = `${this.baseUrl}/${modelId}:predict?key=${this.apiKey}`;
+
+        const payload = {
+            instances: [{ prompt }],
+            parameters: {
+                sampleCount: 1,
+                aspectRatio: options.aspectRatio || '1:1'
+            }
+        };
+
+        const response = await axios.post(apiUrl, payload);
+        return this.normalizeImagenResponse(response.data);
+    }
+
+    // Gemini Image API (gemini-2.5-flash-image, etc.)
+    async generateWithGemini(modelId, prompt, options = {}) {
         const apiUrl = `${this.baseUrl}/${modelId}:generateContent?key=${this.apiKey}`;
-        
+
         const payload = {
             contents: [{
                 parts: [{ text: prompt }]
             }],
             generationConfig: {
-                // Future config like aspect ratio can go here
+                responseModalities: ["IMAGE", "TEXT"]
             }
         };
 
-        console.log(`[Nanobanana] Requesting ${modelId}...`);
-        
-        try {
-            const response = await axios.post(apiUrl, payload);
-            return this.normalizeResponse(response.data);
-        } catch (error) {
-            console.error('[Nanobanana] Error:', error.response ? error.response.data : error.message);
-            throw new Error(`Nanobanana API Error: ${error.message}`);
-        }
+        const response = await axios.post(apiUrl, payload);
+        return this.normalizeGeminiResponse(response.data);
     }
 
-    // Convert API specific response to a standard format for our frontend
-    normalizeResponse(data) {
+    // Normalize Imagen API response
+    normalizeImagenResponse(data) {
+        const prediction = data.predictions?.[0];
+
+        if (prediction?.bytesBase64Encoded) {
+            return {
+                type: 'base64',
+                mimeType: prediction.mimeType || 'image/png',
+                data: prediction.bytesBase64Encoded
+            };
+        }
+
+        throw new Error('No image data in Imagen response');
+    }
+
+    // Normalize Gemini API response
+    normalizeGeminiResponse(data) {
         const candidate = data.candidates?.[0];
         const part = candidate?.content?.parts?.[0];
 
@@ -41,14 +84,13 @@ class NanobananaProvider {
                 data: part.inlineData.data
             };
         } else if (part?.text) {
-             // Sometimes image APIs return a URL in text, or just text if failed
             return {
                 type: 'text',
                 data: part.text
             };
         }
-        
-        throw new Error('Unknown response format from Nanobanana');
+
+        throw new Error('Unknown response format from Gemini');
     }
 }
 

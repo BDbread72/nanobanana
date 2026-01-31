@@ -340,9 +340,11 @@ async function generateImage() {
                 statusMsg.className = 'success';
              } else {
                 const p = document.createElement('p');
+                p.className = 'text-response';
                 p.textContent = data.data;
                 resultContainer.appendChild(p);
-                statusMsg.textContent = 'Result received';
+                statusMsg.textContent = 'Model returned text instead of image. Try a different prompt.';
+                statusMsg.className = 'error';
              }
         }
 
